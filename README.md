@@ -11,26 +11,23 @@ Magnússonar í íslenskum fræðum (málföng.is, CC BY 4.0).
 
 ## Uppsetning
 
-1. Sæktu nýjustu útgáfu (Download ZIP / Releases á GitHub) og afþjappaðu.
-2. Lokaðu InDesign.
-3. Tvísmelltu á **„Setja upp - Install.command"**.
-   - macOS mun líklega neita að opna skrána — *"Apple could not verify
-     'Setja upp - Install.command' is free of malware"* (eða á eldri macOS
-     *"…from an unidentified developer"*). Þá:
-     1. Smelltu á **Done** (ekki "Move to Trash").
-     2. Opnaðu **System Settings → Privacy & Security**, skrunaðu neðst í
-        **Security**-hlutann — þar stendur að skráin hafi verið stöðvuð.
-     3. Smelltu á **Open Anyway** og staðfestu.
-     Þetta þarf bara einu sinni. (Á eldri macOS dugar hægrismellur á skrána
-     → **Open** → **Open**.)
-4. Sláðu inn lykilorðið þitt þegar beðið er um það.
+1. Lokaðu InDesign.
+2. Opnaðu **Terminal** (Cmd+bilslá, skrifaðu „Terminal", Enter).
+3. Límdu þessa skipun í gluggann og ýttu á Enter:
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/arnorb/hunspell-is-indesign/main/install.sh | sudo bash
+```
+
+4. Sláðu inn lykilorðið þitt þegar beðið er um það (það sést ekki þegar
+   það er slegið inn — það er eðlilegt).
 5. Endurræstu InDesign.
 
-Uppsetningin finnur sjálfkrafa allar InDesign-útgáfur í /Applications
-(2024, 2025, 2026, …) og setur íslenskuna upp í þeim öllum.
+Uppsetningin sækir allt sem þarf, finnur sjálfkrafa allar InDesign-útgáfur í
+/Applications (2024, 2025, 2026, …) og setur íslenskuna upp í þeim öllum.
 
-**ATH:** Þegar Adobe uppfærir InDesign hverfur íslenskan — keyrðu þá
-uppsetninguna einfaldlega aftur.
+**ATH:** Þegar Adobe uppfærir InDesign hverfur íslenskan — keyrðu þá sömu
+skipun einfaldlega aftur.
 
 ## Notkun
 
@@ -44,16 +41,17 @@ uppsetninguna einfaldlega aftur.
 Stafsetningarleiðrétting virkar sjálfkrafa þegar tungumál textans er íslenska
 (Edit → Spelling).
 
-### Skipanalínuleið (fyrir lengra komna)
-
-Í stað tvísmells má keyra uppsetninguna í Terminal — sjá
-[Command line](#command-line) í enska hlutanum.
-
 ## Fjarlæging
 
-Tvísmelltu á **„Fjarlægja - Uninstall.command"**. Það skilar InDesign
-nákvæmlega í upprunalegt horf (öryggisafrit eru geymd í
-/Users/Shared/is_IS-indesign/).
+Sama skipun með `--uninstall` skilar InDesign nákvæmlega í upprunalegt horf
+(öryggisafrit eru geymd í /Users/Shared/is_IS-indesign/):
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/arnorb/hunspell-is-indesign/main/install.sh | sudo bash -s -- --uninstall
+```
+
+Fleiri möguleikar (t.d. ein útgáfa í einu): sjá
+[Command line](#command-line) í enska hlutanum.
 
 ---
 
@@ -66,21 +64,34 @@ mechanism InDesign uses for its ~50 shipped languages. The hyphenation
 patterns are the official Icelandic rules from the Árni Magnússon Institute
 for Icelandic Studies (málföng.is, CC BY 4.0).
 
-**Install:** quit InDesign, double-click *Setja upp - Install.command*, enter
-your password, restart InDesign. Gatekeeper will likely block the first
-launch ("Apple could not verify … is free of malware" on macOS 15+,
-"unidentified developer" on older macOS): click Done, then System Settings →
-Privacy & Security → scroll to Security → **Open Anyway** (on older macOS,
-right-click → Open → Open works). One time only. Terminal users can skip all
-of this — see [Command line](#command-line). All InDesign versions in /Applications are
-detected and handled. Re-run after Adobe updates (they restore the stock
-dictionaries).
+**Install:** quit InDesign, paste this into Terminal, enter your password,
+restart InDesign:
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/arnorb/hunspell-is-indesign/main/install.sh | sudo bash
+```
+
+It downloads everything it needs and installs into every InDesign version
+found in /Applications. Re-run the same command after Adobe updates (they
+restore the stock dictionaries). Running a script this way never triggers a
+Gatekeeper warning — there is nothing to right-click or approve.
+
+**Use:** set the text's language to *Icelandic* (Character panel or paragraph
+style) and enable *Hyphenate*. In left-aligned text set the Hyphenation Zone
+to 0 to see full hyphenation.
+
+**Uninstall:** the same command with `--uninstall` restores the exact stock
+Adobe state (from backups kept in /Users/Shared/is_IS-indesign/):
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/arnorb/hunspell-is-indesign/main/install.sh | sudo bash -s -- --uninstall
+```
 
 <a name="command-line"></a>
-## Command line
+## Command line options
 
-Instead of the double-click installer, open Terminal, `cd` into this folder
-and run:
+From a clone/download of this repo you can also run the installer directly;
+options work the same appended to the one-liner after `sudo bash -s --`:
 
 ```sh
 sudo ./install.sh                  # install into every InDesign version found in /Applications
@@ -93,13 +104,6 @@ sudo ./install.sh 2025 --uninstall # remove from InDesign 2025 only
 The script is idempotent — running it again repairs or updates an existing
 install. Quit InDesign before running, and restart it afterwards. Backups of
 the stock Adobe files are kept in `/Users/Shared/is_IS-indesign/backups/`.
-
-**Use:** set the text's language to *Icelandic* (Character panel or paragraph
-style) and enable *Hyphenate*. In left-aligned text set the Hyphenation Zone
-to 0 to see full hyphenation.
-
-**Uninstall:** double-click *Fjarlægja - Uninstall.command* — restores the
-exact stock Adobe state from backups kept in /Users/Shared/is_IS-indesign/.
 
 ## How it works (technical)
 
@@ -159,10 +163,8 @@ Installer scripts are MIT-licensed. Not affiliated with Adobe.
 ## Layout
 
 ```
-dictionaries/is_IS/           files installed into InDesign
-sources/                      upstream files, unmodified (see sources/PROVENANCE.md)
-scripts/install-core.sh       per-version install/uninstall engine
-install.sh                    CLI installer (non-interactive; also --hyph-only, --uninstall)
-Setja upp - Install.command   double-click installer (all versions)
-Fjarlægja - Uninstall.command double-click uninstaller
+dictionaries/is_IS/       files installed into InDesign
+sources/                  upstream files, unmodified (see sources/PROVENANCE.md)
+scripts/install-core.sh   per-version install/uninstall engine
+install.sh                installer — self-bootstraps when run via curl | sudo bash
 ```

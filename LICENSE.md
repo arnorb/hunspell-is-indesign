@@ -31,8 +31,7 @@ installed alongside the dictionaries as `README_is_IS.txt`.
 
 ## Installer scripts — MIT
 
-The installer scripts (`Setja upp - Install.command`,
-`Fjarlægja - Uninstall.command`, `scripts/install-core.sh`) are:
+The installer scripts (`install.sh`, `scripts/install-core.sh`) are:
 
 Copyright (c) 2026 Arnór Bogason
 
