@@ -14,11 +14,15 @@ Magnússonar í íslenskum fræðum (málföng.is, CC BY 4.0).
 1. Sæktu nýjustu útgáfu (Download ZIP / Releases á GitHub) og afþjappaðu.
 2. Lokaðu InDesign.
 3. Tvísmelltu á **„Setja upp - Install.command"**.
-   - Ef macOS neitar að opna skrána með skilaboðunum *"…cannot be opened
-     because it is from an unidentified developer"*: hægrismelltu á skrána
-     → **Open** → **Open**. Ef sá möguleiki birtist ekki (nýrri macOS):
-     opnaðu **System Settings → Privacy & Security**, skrunaðu neðst og
-     smelltu á **Open Anyway**. Þetta þarf bara í fyrsta skipti.
+   - macOS mun líklega neita að opna skrána — *"Apple could not verify
+     'Setja upp - Install.command' is free of malware"* (eða á eldri macOS
+     *"…from an unidentified developer"*). Þá:
+     1. Smelltu á **Done** (ekki "Move to Trash").
+     2. Opnaðu **System Settings → Privacy & Security**, skrunaðu neðst í
+        **Security**-hlutann — þar stendur að skráin hafi verið stöðvuð.
+     3. Smelltu á **Open Anyway** og staðfestu.
+     Þetta þarf bara einu sinni. (Á eldri macOS dugar hægrismellur á skrána
+     → **Open** → **Open**.)
 4. Sláðu inn lykilorðið þitt þegar beðið er um það.
 5. Endurræstu InDesign.
 
@@ -63,9 +67,12 @@ patterns are the official Icelandic rules from the Árni Magnússon Institute
 for Icelandic Studies (málföng.is, CC BY 4.0).
 
 **Install:** quit InDesign, double-click *Setja upp - Install.command*, enter
-your password, restart InDesign. If Gatekeeper blocks it ("unidentified
-developer"): right-click → Open → Open, or on newer macOS use System Settings
-→ Privacy & Security → Open Anyway (first time only). All InDesign versions in /Applications are
+your password, restart InDesign. Gatekeeper will likely block the first
+launch ("Apple could not verify … is free of malware" on macOS 15+,
+"unidentified developer" on older macOS): click Done, then System Settings →
+Privacy & Security → scroll to Security → **Open Anyway** (on older macOS,
+right-click → Open → Open works). One time only. Terminal users can skip all
+of this — see [Command line](#command-line). All InDesign versions in /Applications are
 detected and handled. Re-run after Adobe updates (they restore the stock
 dictionaries).
 
