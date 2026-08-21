@@ -1,0 +1,145 @@
+# Íslensk orðskipting fyrir Adobe InDesign
+
+**Icelandic hyphenation for Adobe InDesign** — [English below](#english)
+
+Ókeypis og opið: bætir íslenskri orðskiptingu og stafsetningarleiðréttingu við
+InDesign í gegnum innbyggða Hunspell-málstuðninginn — engin viðbót (plugin),
+sama kerfi og InDesign notar fyrir ~50 önnur tungumál.
+
+Orðskiptireglurnar eru opinberu íslensku reglurnar frá Stofnun Árna
+Magnússonar í íslenskum fræðum (málföng.is, CC BY 4.0).
+
+## Uppsetning
+
+1. Sæktu nýjustu útgáfu (Download ZIP / Releases á GitHub) og afþjappaðu.
+2. Lokaðu InDesign.
+3. Tvísmelltu á **„Setja upp - Install.command"**.
+   - Ef macOS neitar að opna skrána („óþekktur forritari"): hægrismelltu á
+     hana → **Open/Opna** → Open. Þetta þarf bara í fyrsta skipti.
+4. Sláðu inn lykilorðið þitt þegar beðið er um það.
+5. Endurræstu InDesign.
+
+Uppsetningin finnur sjálfkrafa allar InDesign-útgáfur í /Applications
+(2024, 2025, 2026, …) og setur íslenskuna upp í þeim öllum.
+
+**ATH:** Þegar Adobe uppfærir InDesign hverfur íslenskan — keyrðu þá
+uppsetninguna einfaldlega aftur.
+
+## Notkun
+
+1. Veldu textann (eða allt með Cmd+A) og stilltu tungumálið á **Icelandic**
+   í Character-spjaldinu — best er að stilla það í málsgreinarstílum
+   (paragraph styles).
+2. Kveiktu á **Hyphenate** í Paragraph-spjaldinu.
+3. Í vinstrijöfnuðum texta: settu **Hyphenation Zone** á 0
+   (Paragraph-valmynd → Hyphenation…) svo orðskipting sjáist almennilega.
+
+Stafsetningarleiðrétting virkar sjálfkrafa þegar tungumál textans er íslenska
+(Edit → Spelling).
+
+### Skipanalínuleið (fyrir lengra komna)
+
+Í stað tvísmells má keyra í Terminal:
+
+```sh
+sudo ./install.sh               # allar útgáfur / all versions
+sudo ./install.sh 2026          # ein útgáfa / one version
+sudo ./install.sh --uninstall   # fjarlægja / remove
+```
+
+## Fjarlæging
+
+Tvísmelltu á **„Fjarlægja - Uninstall.command"**. Það skilar InDesign
+nákvæmlega í upprunalegt horf (öryggisafrit eru geymd í
+/Users/Shared/is_IS-indesign/).
+
+---
+
+<a name="english"></a>
+# English
+
+Free and open: adds Icelandic hyphenation and spell checking to Adobe InDesign
+through its built-in Hunspell linguistics provider — no plugin, the same
+mechanism InDesign uses for its ~50 shipped languages. The hyphenation
+patterns are the official Icelandic rules from the Árni Magnússon Institute
+for Icelandic Studies (málföng.is, CC BY 4.0).
+
+**Install:** quit InDesign, double-click *Setja upp - Install.command*
+(right-click → Open the first time if Gatekeeper objects), enter your
+password, restart InDesign. All InDesign versions in /Applications are
+detected and handled. Re-run after Adobe updates (they restore the stock
+dictionaries). CLI alternative: `sudo ./install.sh` (add years, `--hyph-only`
+or `--uninstall` as needed).
+
+**Use:** set the text's language to *Icelandic* (Character panel or paragraph
+style) and enable *Hyphenate*. In left-aligned text set the Hyphenation Zone
+to 0 to see full hyphenation.
+
+**Uninstall:** double-click *Fjarlægja - Uninstall.command* — restores the
+exact stock Adobe state from backups kept in /Users/Shared/is_IS-indesign/.
+
+## How it works (technical)
+
+InDesign's Hunspell plugin lives at:
+
+```
+/Applications/Adobe InDesign <YEAR>/Resources/Dictionaries/LILO/Linguistics/Providers/Plugins2/AdobeHunspellPlugin.bundle
+```
+
+Each language is a folder under `Contents/SharedSupport/Dictionaries/<locale>/`
+— libhyphen hyphenation patterns (`hyph_is_IS.dic`) plus a Hunspell spelling
+pair (`is_IS.aff`/`is_IS.dic`) — registered in the bundle's `Info.plist` under
+`ALPlugInLanguages` → `HyphenationService` / `SpellingService` /
+`UserDictionaryService`. Icelandic is simply missing from the stock set;
+`scripts/install-core.sh` adds it.
+
+### The code-signature gotcha (critical)
+
+Any modification inside `AdobeHunspellPlugin.bundle` — even just adding a
+dictionary file — invalidates the bundle's code signature, and macOS then
+**silently refuses to load the plugin**. The symptoms are dramatic and
+misleading: hyphenation stops working in *every* language (including English),
+and languages with a registered spelling service can fail to compose at all
+(text vanishes into overset). This is almost certainly the failure behind
+Adobe-forum reports of custom dictionaries "breaking" modern InDesign.
+
+The fix is to ad-hoc re-sign the bundle after modifying it
+(`codesign --force --deep -s - <bundle>`). InDesign loads third-party plugins,
+so it accepts an ad-hoc signature. The installer does this automatically, and
+backs up the stock plist, plugin binary, and `_CodeSignature` so uninstall
+restores the exact Adobe-signed state.
+
+### Verification notes
+
+Verified working on InDesign 2024, 2025 and 2026 (macOS): visual composition
+tests show correct breaks (`sjálfstæðisbarátt-una`, `alþjóðasamskipt-in`);
+the pattern file also validates against pyphen (same libhyphen format).
+When testing, remember: language is a character attribute, and left-aligned
+text needs Hyphenation Zone 0 (or justified text) for hyphens to appear.
+
+## Sources & licensing
+
+See [LICENSE.md](LICENSE.md). Dictionary files come from the LibreOffice
+dictionaries collection (`github.com/LibreOffice/dictionaries`, `is/`),
+stored unmodified in `sources/`:
+
+- **Hyphenation patterns** (`hyph_is.dic`, 7,695 patterns) — Icelandic
+  Language Institute / Árni Magnússon Institute, published at málföng.is
+  under **CC BY 4.0**; lineage: Jörgen Pind's TeX patterns and Magnús
+  Gíslason's Liang-algorithm work.
+- **Spelling** (`is.aff`/`is.dic`) — Hunspell-is
+  (`github.com/nifgraup/hunspell-is`); wordlist by Orðabók Háskólans (public
+  domain) with Icelandic Wiktionary additions (**CC BY-SA 3.0**).
+
+Installer scripts are MIT-licensed. Not affiliated with Adobe.
+
+## Layout
+
+```
+dictionaries/is_IS/           files installed into InDesign
+sources/                      upstream files, unmodified (see sources/PROVENANCE.md)
+scripts/install-core.sh       per-version install/uninstall engine
+install.sh                    CLI installer (non-interactive; also --hyph-only, --uninstall)
+Setja upp - Install.command   double-click installer (all versions)
+Fjarlægja - Uninstall.command double-click uninstaller
+```
