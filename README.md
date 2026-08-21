@@ -39,13 +39,8 @@ Stafsetningarleiðrétting virkar sjálfkrafa þegar tungumál textans er íslen
 
 ### Skipanalínuleið (fyrir lengra komna)
 
-Í stað tvísmells má keyra í Terminal:
-
-```sh
-sudo ./install.sh               # allar útgáfur / all versions
-sudo ./install.sh 2026          # ein útgáfa / one version
-sudo ./install.sh --uninstall   # fjarlægja / remove
-```
+Í stað tvísmells má keyra uppsetninguna í Terminal — sjá
+[Command line](#command-line) í enska hlutanum.
 
 ## Fjarlæging
 
@@ -68,8 +63,25 @@ for Icelandic Studies (málföng.is, CC BY 4.0).
 (right-click → Open the first time if Gatekeeper objects), enter your
 password, restart InDesign. All InDesign versions in /Applications are
 detected and handled. Re-run after Adobe updates (they restore the stock
-dictionaries). CLI alternative: `sudo ./install.sh` (add years, `--hyph-only`
-or `--uninstall` as needed).
+dictionaries).
+
+<a name="command-line"></a>
+## Command line
+
+Instead of the double-click installer, open Terminal, `cd` into this folder
+and run:
+
+```sh
+sudo ./install.sh                  # install into every InDesign version found in /Applications
+sudo ./install.sh 2026             # install into InDesign 2026 only
+sudo ./install.sh --hyph-only      # install hyphenation without the spellcheck dictionary
+sudo ./install.sh --uninstall      # remove Icelandic and restore stock Adobe state
+sudo ./install.sh 2025 --uninstall # remove from InDesign 2025 only
+```
+
+The script is idempotent — running it again repairs or updates an existing
+install. Quit InDesign before running, and restart it afterwards. Backups of
+the stock Adobe files are kept in `/Users/Shared/is_IS-indesign/backups/`.
 
 **Use:** set the text's language to *Icelandic* (Character panel or paragraph
 style) and enable *Hyphenate*. In left-aligned text set the Hyphenation Zone
