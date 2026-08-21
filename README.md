@@ -14,8 +14,11 @@ Magnússonar í íslenskum fræðum (málföng.is, CC BY 4.0).
 1. Sæktu nýjustu útgáfu (Download ZIP / Releases á GitHub) og afþjappaðu.
 2. Lokaðu InDesign.
 3. Tvísmelltu á **„Setja upp - Install.command"**.
-   - Ef macOS neitar að opna skrána („óþekktur forritari"): hægrismelltu á
-     hana → **Open/Opna** → Open. Þetta þarf bara í fyrsta skipti.
+   - Ef macOS neitar að opna skrána með skilaboðunum *"…cannot be opened
+     because it is from an unidentified developer"*: hægrismelltu á skrána
+     → **Open** → **Open**. Ef sá möguleiki birtist ekki (nýrri macOS):
+     opnaðu **System Settings → Privacy & Security**, skrunaðu neðst og
+     smelltu á **Open Anyway**. Þetta þarf bara í fyrsta skipti.
 4. Sláðu inn lykilorðið þitt þegar beðið er um það.
 5. Endurræstu InDesign.
 
@@ -59,9 +62,10 @@ mechanism InDesign uses for its ~50 shipped languages. The hyphenation
 patterns are the official Icelandic rules from the Árni Magnússon Institute
 for Icelandic Studies (málföng.is, CC BY 4.0).
 
-**Install:** quit InDesign, double-click *Setja upp - Install.command*
-(right-click → Open the first time if Gatekeeper objects), enter your
-password, restart InDesign. All InDesign versions in /Applications are
+**Install:** quit InDesign, double-click *Setja upp - Install.command*, enter
+your password, restart InDesign. If Gatekeeper blocks it ("unidentified
+developer"): right-click → Open → Open, or on newer macOS use System Settings
+→ Privacy & Security → Open Anyway (first time only). All InDesign versions in /Applications are
 detected and handled. Re-run after Adobe updates (they restore the stock
 dictionaries).
 
