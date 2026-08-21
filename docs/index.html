@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="is">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Íslensk orðskipting fyrir InDesign</title>
+<meta name="description" content="Ókeypis íslensk orðskipting og stafsetning fyrir Adobe InDesign — ein skipun í Terminal. Free Icelandic hyphenation & spelling for InDesign.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;900&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  :root { --ink: #0a0a0a; --paper: #fff; --muted: #6b6b6b; --accent: #0247fe; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "Inter", -apple-system, "Helvetica Neue", Arial, sans-serif;
+    background: var(--paper); color: var(--ink); line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 0 24px; }
+
+  header { padding: 96px 0 0; }
+  .kicker {
+    font-weight: 900; font-size: 0.8rem; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 22px;
+  }
+  h1 {
+    font-weight: 900; font-size: clamp(2.8rem, 9vw, 5.8rem);
+    line-height: 0.98; letter-spacing: -0.045em; text-wrap: balance;
+  }
+  h1 em { font-style: normal; color: var(--accent); }
+  .sub {
+    margin-top: 26px; font-size: clamp(1.05rem, 2.2vw, 1.3rem);
+    color: var(--muted); max-width: 48ch; font-weight: 600;
+  }
+
+  .install { margin: 52px 0 0; }
+  .install-label {
+    font-weight: 900; font-size: 0.8rem; letter-spacing: 0.14em;
+    text-transform: uppercase; margin-bottom: 12px;
+  }
+  .cmd { display: flex; background: var(--ink); border-radius: 14px; overflow: hidden; }
+  .cmd pre {
+    flex: 1; overflow-x: auto; padding: 22px 24px;
+    font-family: "JetBrains Mono", ui-monospace, Menlo, monospace;
+    font-size: 0.92rem; color: #fff; white-space: pre; scrollbar-width: thin;
+  }
+  .cmd .p { color: #7a7a7a; user-select: none; }
+  .copy {
+    flex-shrink: 0; border: 0; cursor: pointer; background: var(--accent);
+    color: #fff; font: 900 0.9rem/1 "Inter", sans-serif;
+    padding: 0 28px; min-width: 116px; transition: filter .15s;
+  }
+  .copy:hover { filter: brightness(1.15); }
+  .copy.done { background: #00a651; }
+  .fineprint { margin-top: 14px; color: var(--muted); font-size: 0.9rem; }
+  .fineprint code {
+    font-family: "JetBrains Mono", monospace; font-size: 0.82rem;
+    background: #f2f2f2; padding: 2px 6px; border-radius: 6px;
+  }
+
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin: 72px 0; }
+  .step .num { font-weight: 900; font-size: 3rem; letter-spacing: -0.04em; color: var(--accent); line-height: 1; }
+  .step h3 { font-weight: 900; font-size: 1.1rem; letter-spacing: -0.02em; margin: 12px 0 6px; }
+  .step p { color: var(--muted); font-size: 0.95rem; }
+
+  .more { border-top: 2px solid var(--ink); padding: 44px 0 80px; }
+  .more p { font-size: 1.1rem; font-weight: 600; max-width: 60ch; }
+  .more p.en { margin-top: 14px; color: var(--muted); font-size: 0.95rem; font-weight: 400; }
+  .more a { color: var(--ink); font-weight: 900; text-decoration: none; border-bottom: 3px solid var(--accent); }
+  .more a:hover { color: var(--accent); }
+
+  @media (max-width: 720px) {
+    header { padding-top: 64px; }
+    .steps { grid-template-columns: 1fr; gap: 26px; margin: 56px 0; }
+    .cmd { flex-direction: column; }
+    .copy { padding: 16px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="kicker">Ókeypis · opinn hugbúnaður · macOS</div>
+    <h1>Íslensk orð&shy;skipting fyrir InDesign<em>.</em></h1>
+    <p class="sub">Rétt orðskipting og stafsetningarleiðrétting á íslensku í Adobe InDesign — sett upp með einni skipun.</p>
+
+    <div class="install">
+      <div class="install-label">Uppsetning — límdu í Terminal</div>
+      <div class="cmd">
+        <pre><span class="p">$ </span>curl -fsSL https://raw.githubusercontent.com/arnorb/hunspell-is-indesign/main/install.sh | sudo bash</pre>
+        <button class="copy" id="copybtn" onclick="copyCmd()">Afrita</button>
+      </div>
+      <p class="fineprint">Virkar með InDesign 2024, 2025 og 2026. Fjarlæging: sama skipun með <code>-s -- --uninstall</code> aftast.</p>
+    </div>
+  </header>
+
+  <div class="steps">
+    <div class="step">
+      <div class="num">1</div>
+      <h3>Lokaðu InDesign</h3>
+      <p>Opnaðu svo Terminal: Cmd+bilslá, skrifaðu „Terminal", Enter.</p>
+    </div>
+    <div class="step">
+      <div class="num">2</div>
+      <h3>Límdu skipunina</h3>
+      <p>Ýttu á Enter og sláðu inn lykilorðið þitt þegar beðið er um það.</p>
+    </div>
+    <div class="step">
+      <div class="num">3</div>
+      <h3>Endurræstu InDesign</h3>
+      <p>Stilltu tungumál textans á Icelandic og kveiktu á Hyphenate.</p>
+    </div>
+  </div>
+
+  <div class="more">
+    <p>Allt annað — notkun, fjarlæging, hvernig þetta virkar — er í <a href="https://github.com/arnorb/hunspell-is-indesign#readme">README á GitHub</a>.</p>
+    <p class="en">Free Icelandic hyphenation &amp; spelling for Adobe InDesign, using the official Árni Magnússon Institute patterns (CC BY 4.0). Docs in English in the <a href="https://github.com/arnorb/hunspell-is-indesign#english">README</a>. Not affiliated with Adobe.</p>
+  </div>
+
+</div>
+<script>
+  var CMD = "curl -fsSL https://raw.githubusercontent.com/arnorb/hunspell-is-indesign/main/install.sh | sudo bash";
+  function copyCmd() {
+    var btn = document.getElementById("copybtn");
+    var done = function () {
+      btn.textContent = "Afritað ✓"; btn.classList.add("done");
+      setTimeout(function () { btn.textContent = "Afrita"; btn.classList.remove("done"); }, 1800);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(CMD).then(done);
+    } else {
+      var ta = document.createElement("textarea");
+      ta.value = CMD; document.body.appendChild(ta); ta.select();
+      document.execCommand("copy"); document.body.removeChild(ta); done();
+    }
+  }
+</script>
+</body>
+</html>
