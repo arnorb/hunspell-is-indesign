@@ -1,6 +1,6 @@
 # machine-specific stock backups created by older script versions
 backups/
-# test artifacts
-*.png
+# test artifacts (repo root only)
+/*.png
 .DS_Store
 .omc/
