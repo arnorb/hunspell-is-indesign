@@ -24,7 +24,7 @@ curl -fsSL https://raw.githubusercontent.com/arnorb/hunspell-is-indesign/main/in
 5. Endurræstu InDesign.
 
 Uppsetningin sækir allt sem þarf, finnur sjálfkrafa allar InDesign-útgáfur í
-/Applications (2024, 2025, 2026, …) og setur íslenskuna upp í þeim öllum.
+/Applications (2024 og nýrri) og setur íslenskuna upp í þeim öllum.
 
 **ATH:** Þegar Adobe uppfærir InDesign hverfur íslenskan — keyrðu þá sömu
 skipun einfaldlega aftur.
@@ -138,7 +138,7 @@ restores the exact Adobe-signed state.
 
 ### Verification notes
 
-Verified working on InDesign 2024, 2025 and 2026 (macOS): visual composition
+Works with InDesign 2024 and later; verified on 2024 through 2027 (macOS): visual composition
 tests show correct breaks (`sjálfstæðisbarátt-una`, `alþjóðasamskipt-in`);
 the pattern file also validates against pyphen (same libhyphen format).
 When testing, remember: language is a character attribute, and left-aligned
