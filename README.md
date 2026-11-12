@@ -41,7 +41,7 @@ skipun einfaldlega aftur.
 Stafsetningarleiðrétting virkar sjálfkrafa þegar tungumál textans er íslenska
 (Edit → Spelling).
 
-## Fjarlæging
+## Að fjarlægja íslenskuna
 
 Sama skipun með `--uninstall` fjarlægir íslenskuna. Ef til er öryggisafrit af
 upprunalegu Adobe-skránum (geymt í /Users/Shared/is_IS-indesign/) er InDesign
