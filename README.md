@@ -43,8 +43,9 @@ Stafsetningarleiðrétting virkar sjálfkrafa þegar tungumál textans er íslen
 
 ## Fjarlæging
 
-Sama skipun með `--uninstall` skilar InDesign nákvæmlega í upprunalegt horf
-(öryggisafrit eru geymd í /Users/Shared/is_IS-indesign/):
+Sama skipun með `--uninstall` fjarlægir íslenskuna. Ef til er öryggisafrit af
+upprunalegu Adobe-skránum (geymt í /Users/Shared/is_IS-indesign/) er InDesign
+skilað nákvæmlega í upprunalegt horf:
 
 ```sh
 curl -fsSL https://raw.githubusercontent.com/arnorb/hunspell-is-indesign/main/install.sh | sudo bash -s -- --uninstall
@@ -80,8 +81,9 @@ Gatekeeper warning — there is nothing to right-click or approve.
 style) and enable *Hyphenate*. In left-aligned text set the Hyphenation Zone
 to 0 to see full hyphenation.
 
-**Uninstall:** the same command with `--uninstall` restores the exact stock
-Adobe state (from backups kept in /Users/Shared/is_IS-indesign/):
+**Uninstall:** the same command with `--uninstall` removes Icelandic. When a
+backup of the stock Adobe files exists (kept in /Users/Shared/is_IS-indesign/),
+it restores the exact Adobe-signed state:
 
 ```sh
 curl -fsSL https://raw.githubusercontent.com/arnorb/hunspell-is-indesign/main/install.sh | sudo bash -s -- --uninstall
@@ -97,7 +99,7 @@ options work the same appended to the one-liner after `sudo bash -s --`:
 sudo ./install.sh                  # install into every InDesign version found in /Applications
 sudo ./install.sh 2026             # install into InDesign 2026 only
 sudo ./install.sh --hyph-only      # install hyphenation without the spellcheck dictionary
-sudo ./install.sh --uninstall      # remove Icelandic and restore stock Adobe state
+sudo ./install.sh --uninstall      # remove Icelandic (restores stock Adobe files if backed up)
 sudo ./install.sh 2025 --uninstall # remove from InDesign 2025 only
 ```
 
@@ -132,9 +134,12 @@ Adobe-forum reports of custom dictionaries "breaking" modern InDesign.
 
 The fix is to ad-hoc re-sign the bundle after modifying it
 (`codesign --force --deep -s - <bundle>`). InDesign loads third-party plugins,
-so it accepts an ad-hoc signature. The installer does this automatically, and
-backs up the stock plist, plugin binary, and `_CodeSignature` so uninstall
-restores the exact Adobe-signed state.
+so it accepts an ad-hoc signature. The installer does this automatically. While
+the bundle is still Adobe-signed, it backs up the stock plist, plugin binary and
+`_CodeSignature`, so uninstall can restore the exact Adobe-signed state. If no
+matching backup exists (for example, the bundle was modified before the first
+backup), uninstall removes Icelandic and leaves an ad-hoc signature; reinstalling
+InDesign brings Adobe's signature back.
 
 ### Verification notes
 

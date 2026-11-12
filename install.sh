@@ -42,7 +42,11 @@ MODE=""
 YEARS=()
 for ARG in "$@"; do
   case "$ARG" in
-    --uninstall|--hyph-only) MODE="$ARG" ;;
+    --uninstall|--hyph-only)
+      if [ -n "$MODE" ] && [ "$MODE" != "$ARG" ]; then
+        echo "ERROR: --hyph-only and --uninstall can't be combined"; exit 1
+      fi
+      MODE="$ARG" ;;
     20[0-9][0-9]) YEARS+=("$ARG") ;;
     -h|--help) usage; exit 0 ;;
     *) echo "ERROR: unknown argument '$ARG' (expected a year like 2026, --hyph-only or --uninstall)"; exit 1 ;;
